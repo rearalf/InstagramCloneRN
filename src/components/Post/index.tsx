@@ -1,6 +1,12 @@
 import React from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { scale } from '@app/utils';
+import Animated, {
+	interpolateColor,
+	useAnimatedScrollHandler,
+	useAnimatedStyle,
+	useSharedValue
+} from 'react-native-reanimated';
 
 const POST: Post = {
 	user: {
@@ -36,6 +42,15 @@ const POST: Post = {
 				width: 375,
 				height: 375
 			}
+		},
+		{
+			url:
+				'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+			type: 'image',
+			size: {
+				width: 375,
+				height: 375
+			}
 		}
 	],
 	description: 'The game in Japan was amazing and I want to share some photos',
@@ -45,6 +60,10 @@ const POST: Post = {
 };
 
 const Post = () => {
+	const scrollX = useSharedValue(0);
+	const handleScroll = useAnimatedScrollHandler((event) => {
+		scrollX.value = event.contentOffset.x;
+	});
 	return (
 		<View style={styles.container}>
 			<View style={styles.headerContainer}>
@@ -78,9 +97,16 @@ const Post = () => {
 					<Image style={styles.optionsIcon} source={require('@app/assets/icons/OptionsIcon.png')} />
 				</Pressable>
 			</View>
-			<ScrollView showsHorizontalScrollIndicator={false} scrollEventThrottle={16} pagingEnabled horizontal>
-				{POST.media.map((media, i) => {
-					return (
+			<View style={{ alignItems: 'center', marginBottom: scale(12) }}>
+				<Animated.ScrollView
+					bounces={false}
+					onScroll={handleScroll}
+					showsHorizontalScrollIndicator={false}
+					scrollEventThrottle={16}
+					pagingEnabled
+					horizontal
+				>
+					{POST.media.map((media, i) => (
 						<Image
 							key={`MEDIA_${i}`}
 							source={{ uri: media.url }}
@@ -89,9 +115,31 @@ const Post = () => {
 								height: scale(media.size.height)
 							}}
 						/>
-					);
-				})}
-			</ScrollView>
+					))}
+				</Animated.ScrollView>
+				<View
+					style={{
+						flexDirection: 'row',
+						position: 'absolute',
+						bottom: scale(-21)
+					}}
+				>
+					{POST.media.map((e, i) => {
+						const _width = scale(e.size.width);
+						const inputRange = [ (i - 1) * _width, i * _width, (i + 1) * _width ];
+						const animatedStyles = useAnimatedStyle(() => {
+							return {
+								backgroundColor: interpolateColor(scrollX.value, inputRange, [
+									'#CCC',
+									'#3897F0',
+									'#CCC'
+								])
+							};
+						});
+						return <Animated.View key={`MEDIA_${i}`} style={[ styles.dot, animatedStyles ]} />;
+					})}
+				</View>
+			</View>
 			<View style={{ paddingHorizontal: 15 }}>
 				<View style={styles.actionsBar}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -130,6 +178,14 @@ const Post = () => {
 					<Text style={styles.descriptionUsername}>{POST.user.userName} </Text>
 					{POST.description}
 				</Text>
+				<Text
+					style={{
+						fontSize: scale(12),
+						color: 'rgba(0,0,0,0.4)'
+					}}
+				>
+					2d ago
+				</Text>
 			</View>
 		</View>
 	);
@@ -138,7 +194,9 @@ const Post = () => {
 export default Post;
 
 const styles = StyleSheet.create({
-	container: {},
+	container: {
+		marginBottom: scale(16)
+	},
 	headerContainer: {
 		height: scale(54),
 		width: '100%',
@@ -178,11 +236,17 @@ const styles = StyleSheet.create({
 		height: 3,
 		resizeMode: 'contain'
 	},
+	dot: {
+		width: scale(6),
+		height: scale(6),
+		borderRadius: scale(6) / 2,
+		backgroundColor: 'rgba(0,0,0,.15)',
+		marginHorizontal: 2
+	},
 	actionsBar: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		marginTop: 12,
 		marginBottom: 11
 	},
 	likesContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 5 },
@@ -195,7 +259,8 @@ const styles = StyleSheet.create({
 	description: {
 		fontSize: scale(13),
 		color: '#262626',
-		letterSpacing: scale(-0.07)
+		letterSpacing: scale(-0.07),
+		marginBottom: scale(3)
 	},
 	descriptionUsername: { fontWeight: 'bold', letterSpacing: scale(-0.1) }
 });

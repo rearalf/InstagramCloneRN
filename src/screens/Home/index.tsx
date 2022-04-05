@@ -9,8 +9,9 @@ interface HomeScreenProps extends ScreenProps<MainNavigationParamsList, 'Home'> 
 const HomeScreen = (props: HomeScreenProps) => {
 	return (
 		<View style={styles.container}>
-			<ScrollView>
+			<ScrollView bounces={false} showsVerticalScrollIndicator={false}>
 				<StoriesSlider />
+				<Post />
 				<Post />
 			</ScrollView>
 		</View>

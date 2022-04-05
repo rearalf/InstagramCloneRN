@@ -1,20 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { ScreenProps } from '@app/@types/navigation';
 
-const CreatePostScreen = () => {
-    return (
-        <View style={styles.container}>
-            <Text>CreatePostScreen</Text>
-        </View>
-    )
-}
+interface CreatePostScreenProps extends ScreenProps<MainNavigationParamsList, 'CreatePost'> {}
 
-export default CreatePostScreen
+const CreatePostScreen = (porps: CreatePostScreenProps) => {
+	return (
+		<View style={styles.container}>
+			<Text>CreatePostScreen</Text>
+		</View>
+	);
+};
+
+export default CreatePostScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center"
-        , alignItems: "center"
-    }
-})
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	}
+});

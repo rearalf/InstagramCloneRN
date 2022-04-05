@@ -7,7 +7,7 @@ type RootNavigatorParamsList = {
 type MainNavigationParamsList = {
 	Home: undefined;
 	Search: undefined;
-	Reels: undefined;
+	CreatePost: undefined;
 	Market: undefined;
 	Profile: undefined;
 };

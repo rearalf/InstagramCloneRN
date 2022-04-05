@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import { scale } from '@app/utils';
 
 interface StoriesSliderProps {}
 
@@ -65,36 +66,37 @@ const StoriesSlider = (props: StoriesSliderProps) => {
 
 const styles = StyleSheet.create({
 	container: {
-		marginTop: 9,
+		marginTop: scale(8),
 		borderBottomColor: '#C6C6C8',
-		borderBottomWidth: 0.5,
-		paddingBottom: 8,
-		height: 98
+		borderBottomWidth: scale(0.5),
+		paddingBottom: scale(8),
+		height: scale(98),
+		marginBottom: scale(8)
 	},
 	storyContainer: {
-		marginHorizontal: 10,
-		marginTop: 2,
+		marginHorizontal: scale(10),
+		marginTop: scale(2),
 		position: 'relative',
 		alignSelf: 'center'
 	},
 	gradientContainer: {
-		width: 61,
-		height: 61,
-		borderRadius: 61 / 2,
+		width: scale(61),
+		height: scale(61),
+		borderRadius: scale(61) / 2,
 		position: 'absolute',
-		top: -2.4,
-		left: -2.4
+		top: scale(-2.4),
+		left: scale(-2.4)
 	},
 	image: {
-		width: 56,
-		height: 56,
-		borderRadius: 56 / 2,
-		borderWidth: 2,
-		marginBottom: 5,
+		width: scale(56),
+		height: scale(56),
+		borderRadius: scale(56) / 2,
+		borderWidth: scale(2),
+		marginBottom: scale(5),
 		borderColor: 'white'
 	},
 	username: {
-		fontSize: 12,
+		fontSize: scale(12),
 		color: '#262626'
 	}
 });
