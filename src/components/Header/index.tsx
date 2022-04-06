@@ -1,13 +1,17 @@
-import { scale } from '@app/utils';
 import React from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { Image, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
+import { scale } from '@app/utils';
 
 const Header = () => {
+	const navigation = useNavigation<NavigationProp<RootNavigatorParamsList>>();
 	return (
 		<SafeAreaView style={styles.container}>
 			<Image style={styles.logo} source={require('@app/assets/images/InstagramLogo.png')} />
 			<View style={styles.iconContainer}>
-				<Image style={styles.icon} source={require('@app/assets/icons/CreatePostIcon.png')} />
+				<Pressable onPress={() => navigation.navigate('StoryCreator')}>
+					<Image style={styles.icon} source={require('@app/assets/icons/CreatePostIcon.png')} />
+				</Pressable>
 				<Image style={styles.icon} source={require('@app/assets/icons/NotificationsIcon.png')} />
 				<Image style={styles.icon} source={require('@app/assets/icons/MessangerIcon.png')} />
 			</View>

@@ -1,6 +1,7 @@
 type RootNavigatorParamsList = {
 	SignIn: undefined;
 	SignUp: undefined;
+	StoryCreator: undefined;
 	Main: undefined;
 };
 
