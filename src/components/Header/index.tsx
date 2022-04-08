@@ -1,10 +1,12 @@
 import React from 'react';
+import FirebaseAuth from '@react-native-firebase/auth';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { Image, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
 import { scale } from '@app/utils';
 
 const Header = () => {
 	const navigation = useNavigation<NavigationProp<RootNavigatorParamsList>>();
+	const handleSigningOut = () => FirebaseAuth().signOut().then(() => console.log('User signed out!'));
 	return (
 		<SafeAreaView style={styles.container}>
 			<Image style={styles.logo} source={require('@app/assets/images/InstagramLogo.png')} />
@@ -13,7 +15,9 @@ const Header = () => {
 					<Image style={styles.icon} source={require('@app/assets/icons/CreatePostIcon.png')} />
 				</Pressable>
 				<Image style={styles.icon} source={require('@app/assets/icons/NotificationsIcon.png')} />
-				<Image style={styles.icon} source={require('@app/assets/icons/MessangerIcon.png')} />
+				<Pressable onPress={handleSigningOut}>
+					<Image style={styles.icon} source={require('@app/assets/icons/MessangerIcon.png')} />
+				</Pressable>
 			</View>
 		</SafeAreaView>
 	);

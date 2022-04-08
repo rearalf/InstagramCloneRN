@@ -9,7 +9,7 @@ import { GiphyContent, GiphyGridView, GiphyMedia, GiphyMediaType, GiphySDK } fro
 import { scale } from '@app/utils';
 import Sticker from './auxiliar/Sticker';
 
-GiphySDK.configure({ apiKey: 'vqoRUuKQZTxecNdUTSoime1HDB7mTqQB' });
+GiphySDK.configure({ apiKey: API_TOKEN });
 
 const { height } = Dimensions.get('window');
 
